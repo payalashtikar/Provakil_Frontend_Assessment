@@ -3,12 +3,27 @@ import './style.css'
 const DisplayWeather = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [city, setCity] = useState('');
+
+    const [hourData, setHourData] = useState([]);
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+
     const apiKey = `82269396a8289133c3dca1ab7691e5c6`
 
     async function fetchWeather(cityName) {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`);
         const data = await response.json();
         setWeatherData(data);
+    }
+    // get hourly forecast data
+    async function fetchHourly(latitude, longitude) {
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&cnt=48&appid=${apiKey}`;
+        // const url = `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
+
+        const response = await fetch(url)
+        const data = await response.json();
+        console.log("fetchHourly data", data)
+        return data
     }
 
     useEffect(() => {
@@ -20,10 +35,18 @@ const DisplayWeather = () => {
                 const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`);
                 const data = await response.json();
                 console.log("data :", data)
+                setLatitude(position.coords.latitude)
+                setLongitude(position.coords.longitude)
                 setWeatherData(data);
             });
         }
     }, []);
+
+    useEffect(() => {
+        if (latitude && longitude) {
+            fetchHourly(latitude, longitude).then(data => setHourData(data.list))
+        }
+    }, [latitude, longitude])
 
     if (!weatherData) {
         return <div>Loading...</div>;
@@ -45,6 +68,20 @@ const DisplayWeather = () => {
                         <h4>{weatherData.weather[0].description}</h4>
                     </div>
                 </div>
+            </div>
+            <div className='hourdata'>
+                <h2>Hourly Forecast for the Next 48 Hours</h2>
+                <ul>
+                    {hourData && hourData.map((forecast, index) => (
+                        <li key={index}>
+                            Time: {forecast.dt_txt},
+                            {/* <h4>{forecast.city.name}, {forecast.city.country}</h4> */}
+                            Temperature : {Math.floor(forecast.main.temp - 273.15)} °C ,
+                            Weather: {forecast.weather[0].description}
+
+                        </li>
+                    ))}
+                </ul>
             </div>
 
         </div>

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './style.css'
+import DailyForecast from './DailyForecast';
+import HourlyForecast from './HourlyForecast';
+import CurrentWeather from './CurrentWeather';
 const DisplayWeather = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [city, setCity] = useState('');
@@ -63,63 +66,20 @@ const DisplayWeather = () => {
     }
     return (
         <div>
-            <div className='container'>
-                <div className='row' style={{ textAlign: 'center' }}>
-                    <input type='text' id='search' placeholder='Enter City Name' value={city} onChange={(e) => setCity(e.target.value)} />
-                    <img id='image' onClick={() => fetchWeather(city)} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShteyrPGw5IV5onjnE8yhxuBMGZSTWhRWgYWW0_wrGT_rxS60x44pHKf3t92f18OVgIcM&usqp=CAU' alt='searchIcon' />
-                </div>
-                <div className='row' id="weather">
-                    <div>
-                        <img src="https://ssl.gstatic.com/onebox/weather/64/cloudy.png" alt="weather image loading" width='100px' />
-                    </div>
-                    <div className='details'>
-                        <h4>{weatherData.name}, {weatherData.sys.country}</h4>
-                        {/* <h1>{Math.floor(weatherData.main.temp - 273.15)} °C</h1> */}
-                        <h1>
-                            {weatherData.main.temp > 99
-                                ? `${Math.floor(weatherData.main.temp - 273.15)} °C`
-                                : `${Math.floor(weatherData.main.temp)} °C`},
-
-                        </h1>
-                        <h4>{weatherData.weather[0].description}</h4>
+            <div className="container">
+                <div className="row" style={{ textAlign: 'center' }}>
+                    <div className='row' style={{ textAlign: 'center' }}>
+                        <input type='text' id='search' placeholder='Enter city' value={city} onChange={(e) => setCity(e.target.value)} />
+                        <img id='image' onClick={() => fetchWeather(city)} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShteyrPGw5IV5onjnE8yhxuBMGZSTWhRWgYWW0_wrGT_rxS60x44pHKf3t92f18OVgIcM&usqp=CAU' alt='searchIcon' />
                     </div>
                 </div>
-            </div>
-            <div className='hourdata'>
-                <h2>Hourly Forecast for the Next 48 Hours</h2>
-                <ul>
-                    {hourData && hourData.map((forecast, index) => (
-                        <li key={index}>
-                            Time: {forecast.dt_txt},
-                            {/* <h4>{forecast.city.name}, {forecast.city.country}</h4> */}
-                            {/* Temperature : {Math.floor(forecast.main.temp - 273.15)} °C , */}
-                            Temperature: {forecast.main.temp > 99
-                                ? `${Math.floor(forecast.main.temp - 273.15)} °C`
-                                : `${Math.floor(forecast.main.temp)} °C`},
-                            Weather: {forecast.weather[0].description}
-
-                        </li>
-                    ))}
-                </ul>
+                <div className="row" id="weather">
+                    <CurrentWeather weatherData={weatherData} />
+                </div>
             </div>
 
-            <div className='dailydata'>
-                <h2>Daily Forecast for the Next 7 Days</h2>
-                <ul>
-                    {dailyData && dailyData.map((forecast, index) => (
-                        <li key={index}>
-                            date:{new Date(forecast.dt * 1000).toLocaleDateString()},
-                            Temperature: {forecast.main.temp > 99
-                                ? `${Math.floor(forecast.main.temp - 273.15)} °C`
-                                : `${Math.floor(forecast.main.temp)} °C`},
-                            {/* Temperature :{Math.floor(forecast.main.temp - 273.15)} °C , */}
-                            Weather : {forecast.weather[0].description}
-
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
+            <HourlyForecast hourData={hourData} />
+            <DailyForecast dailyData={dailyData} />
         </div>
     )
 }

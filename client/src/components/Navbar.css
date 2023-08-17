@@ -1,0 +1,90 @@
+.maincontainer {
+    background-color: #2c3e50;
+    padding: 0;
+    margin: 0;
+
+}
+
+.navContainer {
+    padding: 10px;
+    margin: 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+
+}
+
+.navContainer h2 {
+    color: white;
+    margin: 0 10px;
+}
+
+.serachContainer {
+    display: flex;
+}
+
+#search {
+    width: 250px;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #eee;
+
+}
+
+.serachContainer img {
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 10px;
+    border: 1px solid #eee;
+}
+
+@media (max-width: 768px) {
+
+    .navContainer {
+        width: 100%;
+    }
+}
+
+@media (max-width: 481px) and (min-width:481px) {
+    .navContainer {
+        /* width: 100%; */
+        width: auto;
+        width: 100%;
+    }
+
+    .navContainer h2 {
+        color: white;
+        margin: 0 2px;
+    }
+
+    #search {
+        width: 150px;
+        padding: 8px;
+    }
+
+    .serachContainer img {
+        cursor: pointer;
+        margin: 0 2px;
+    }
+}
+
+@media (max-width: 320px) {
+    .navContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #search {
+        width: 200px;
+        padding: 8px;
+    }
+
+    .navContainer h2 {
+        margin: 15px 0;
+    }
+
+}

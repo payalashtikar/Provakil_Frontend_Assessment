@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import './style.css'
+// import './style.css'
 import DailyForecast from './DailyForecast';
 import HourlyForecast from './HourlyForecast';
 import CurrentWeather from './CurrentWeather';
+import Navbar from './Navbar';
 const DisplayWeather = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [city, setCity] = useState('');
@@ -65,21 +66,20 @@ const DisplayWeather = () => {
         return <div>Loading...</div>;
     }
     return (
-        <div>
-            <div className="container">
-                <div className="row" style={{ textAlign: 'center' }}>
-                    <div className='row' style={{ textAlign: 'center' }}>
-                        <input type='text' id='search' placeholder='Enter city' value={city} onChange={(e) => setCity(e.target.value)} />
-                        <img id='image' onClick={() => fetchWeather(city)} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShteyrPGw5IV5onjnE8yhxuBMGZSTWhRWgYWW0_wrGT_rxS60x44pHKf3t92f18OVgIcM&usqp=CAU' alt='searchIcon' />
+
+        <div className=''>
+            <Navbar onSearch={fetchWeather} />
+            <div className='mainContainer'>
+                <div className="container">
+
+                    <div className="row" id="weather">
+                        <CurrentWeather weatherData={weatherData} />
                     </div>
                 </div>
-                <div className="row" id="weather">
-                    <CurrentWeather weatherData={weatherData} />
-                </div>
-            </div>
+                <DailyForecast dailyData={dailyData} />
 
-            <HourlyForecast hourData={hourData} />
-            <DailyForecast dailyData={dailyData} />
+                <HourlyForecast hourData={hourData} />
+            </div>
         </div>
     )
 }

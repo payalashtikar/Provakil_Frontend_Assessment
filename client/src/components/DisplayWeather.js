@@ -8,6 +8,8 @@ const DisplayWeather = () => {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
 
+    const [dailyData, setDailyData] = useState([])
+
     const apiKey = `82269396a8289133c3dca1ab7691e5c6`
 
     async function fetchWeather(cityName) {
@@ -19,10 +21,17 @@ const DisplayWeather = () => {
     async function fetchHourly(latitude, longitude) {
         const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&cnt=48&appid=${apiKey}`;
         // const url = `https://pro.openweathermap.org/data/2.5/forecast/hourly?lat=${latitude}&lon=${longitude}&appid=${apiKey}`
-
         const response = await fetch(url)
         const data = await response.json();
         console.log("fetchHourly data", data)
+        return data
+    }
+    // get daily data for 7 days
+    async function fetchDaily(latitude, longitude) {
+        const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&exclude=current,minutely,hourly,alerts&cnt=7&appid=${apiKey}`
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log("fetchDaily data", data)
         return data
     }
 
@@ -44,7 +53,8 @@ const DisplayWeather = () => {
 
     useEffect(() => {
         if (latitude && longitude) {
-            fetchHourly(latitude, longitude).then(data => setHourData(data.list))
+            fetchHourly(latitude, longitude).then(data => setHourData(data.list));
+            fetchDaily(latitude, longitude).then(data => setDailyData(data.list));
         }
     }, [latitude, longitude])
 
@@ -64,7 +74,13 @@ const DisplayWeather = () => {
                     </div>
                     <div className='details'>
                         <h4>{weatherData.name}, {weatherData.sys.country}</h4>
-                        <h1>{Math.floor(weatherData.main.temp - 273.15)} °C</h1>
+                        {/* <h1>{Math.floor(weatherData.main.temp - 273.15)} °C</h1> */}
+                        <h1>
+                            {weatherData.main.temp > 99
+                                ? `${Math.floor(weatherData.main.temp - 273.15)} °C`
+                                : `${Math.floor(weatherData.main.temp)} °C`},
+
+                        </h1>
                         <h4>{weatherData.weather[0].description}</h4>
                     </div>
                 </div>
@@ -76,8 +92,28 @@ const DisplayWeather = () => {
                         <li key={index}>
                             Time: {forecast.dt_txt},
                             {/* <h4>{forecast.city.name}, {forecast.city.country}</h4> */}
-                            Temperature : {Math.floor(forecast.main.temp - 273.15)} °C ,
+                            {/* Temperature : {Math.floor(forecast.main.temp - 273.15)} °C , */}
+                            Temperature: {forecast.main.temp > 99
+                                ? `${Math.floor(forecast.main.temp - 273.15)} °C`
+                                : `${Math.floor(forecast.main.temp)} °C`},
                             Weather: {forecast.weather[0].description}
+
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            <div className='dailydata'>
+                <h2>Daily Forecast for the Next 7 Days</h2>
+                <ul>
+                    {dailyData && dailyData.map((forecast, index) => (
+                        <li key={index}>
+                            date:{new Date(forecast.dt * 1000).toLocaleDateString()},
+                            Temperature: {forecast.main.temp > 99
+                                ? `${Math.floor(forecast.main.temp - 273.15)} °C`
+                                : `${Math.floor(forecast.main.temp)} °C`},
+                            {/* Temperature :{Math.floor(forecast.main.temp - 273.15)} °C , */}
+                            Weather : {forecast.weather[0].description}
 
                         </li>
                     ))}

@@ -3,7 +3,7 @@
 To Run the project : 
 
 STEP 1: 
-CLONE THE PROJECT
+CLONE THE PROJECT :-
 git clone <--git repo link-->
 
 STEP 2 :
@@ -12,7 +12,7 @@ you need to go inside folder structure like :
 C:\Users\hp\Documents\Provakil_Frontend_Assessment\client
 
 STEP 3 : 
-open terminal and make sure you are inside the same director/path (your folder location)
+open terminal and make sure you are inside the same director/path (your folder location) , 
 write command :- npm install
 
 STEP 4:

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './hourly.css';
 
 function HourlyForecast({ hourData }) {
+    const perPage = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage;
+    const currentHourData = hourData.slice(start, end);
     return (
 
         <div className='hourlyContainer'>
@@ -23,7 +28,8 @@ function HourlyForecast({ hourData }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {hourData && hourData.map((forecast, index) => {
+                            {/* {hourData && hourData.map((forecast, index) => { */}
+                            {currentHourData && currentHourData.map((forecast, index) => {
                                 return (
                                     <tr key={index}>
                                         <td className='dt'>{forecast.dt_txt}</td>
@@ -41,6 +47,32 @@ function HourlyForecast({ hourData }) {
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div className='pagination'>
+                <img
+                    // onClick={() => setCurrentPage(currentPage - 1)}
+                    onClick={() => {
+                        if (currentPage > 1) {
+                            // disabled={currentPage}
+                            setCurrentPage(currentPage - 1)
+                        }
+                        else {
+                            setCurrentPage(currentPage = 0)
+                        }
+                    }}
+                    disabled={currentPage === 1}
+                    src='https://cdn-icons-png.flaticon.com/128/5544/5544140.png' alt='' />
+                <span>{currentPage}</span>
+                <img
+                    // onClick={() => setCurrentPage(currentPage + 1)}
+                    onClick={() => {
+                        if (end < hourData.length) {
+                            setCurrentPage(currentPage + 1)
+
+                        }
+                    }}
+                    disabled={end >= hourData.length || currentHourData === 0}
+                    src='https://cdn3.iconfinder.com/data/icons/circle-filled-app-ui-set/100/TWalsh__Chevron_circle-512.png' alt='' />
             </div>
         </div>
     );

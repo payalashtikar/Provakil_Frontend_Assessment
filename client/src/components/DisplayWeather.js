@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import './style.css'
+import './style.css'
 import DailyForecast from './DailyForecast';
 import HourlyForecast from './HourlyForecast';
 import CurrentWeather from './CurrentWeather';
@@ -13,6 +13,8 @@ const DisplayWeather = () => {
     const [longitude, setLongitude] = useState(null);
 
     const [dailyData, setDailyData] = useState([])
+
+    const [darkMode, setDarkMode] = useState(false);
 
     const apiKey = `82269396a8289133c3dca1ab7691e5c6`
 
@@ -67,8 +69,8 @@ const DisplayWeather = () => {
     }
     return (
 
-        <div className=''>
-            <Navbar onSearch={fetchWeather} />
+        <div className={`wethContainer ${darkMode ? 'dark-mode' : " "}`}>
+            <Navbar onSearch={fetchWeather} onToggleDarkMode={() => setDarkMode(!darkMode)} />
             <div className='mainContainer'>
                 <div className="container">
 

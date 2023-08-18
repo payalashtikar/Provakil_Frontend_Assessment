@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './Navbar.css';
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onSearch, onToggleDarkMode }) => {
     const [city, setCity] = useState('');
     const handleSearch = () => {
         if (city.trim() !== '') {
-            onSearch(city); 
+            onSearch(city);
         }
     };
 
@@ -13,6 +13,10 @@ const Navbar = ({ onSearch }) => {
         <div className='maincontainer'>
             <div className="navContainer">
                 <h2>Weather Forecast</h2>
+                <div className='darkimg'>
+                    <img onClick={onToggleDarkMode} src='https://cdn2.iconfinder.com/data/icons/holloween-twotone/48/Paul-43-512.png' alt='' />
+
+                </div>
                 <div className="serachContainer">
                     <input
                         type='text'

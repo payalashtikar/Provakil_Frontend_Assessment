@@ -32,6 +32,10 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
+.dark-mode tr:nth-child(even) {
+    background-color: #222;
+  }
+
 /* @media (max-width:1200px) {
     th{
         width: 170px;

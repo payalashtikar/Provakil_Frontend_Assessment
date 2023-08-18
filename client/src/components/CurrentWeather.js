@@ -13,8 +13,8 @@ function CurrentWeather({ weatherData }) {
       <div className="row" id="weather">
         <div>
           <img
-            // src="https://ssl.gstatic.com/onebox/weather/64/cloudy.png"
-            src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtSRFoRiwd2Y319oJLusmo7_wGu__w_rO08XUueDhFPldWdWw7pOp-Y3AfA3buSkS1P0E&usqp=CAU'
+            src="https://ssl.gstatic.com/onebox/weather/64/cloudy.png"
+            // src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtSRFoRiwd2Y319oJLusmo7_wGu__w_rO08XUueDhFPldWdWw7pOp-Y3AfA3buSkS1P0E&usqp=CAU'
             alt="weather image loading"
             width="100px"
           />
